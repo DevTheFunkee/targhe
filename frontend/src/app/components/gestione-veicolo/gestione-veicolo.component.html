@@ -1,0 +1,115 @@
+<div class="row">
+
+  <div class="col-5">
+    <form name="form" (ngSubmit)="f.form.valid && inserisciVeicolo()" #f="ngForm" novalidate>
+      <fieldset>
+        <legend class="second-title">Inserisci Nuovo Veicolo</legend>
+
+        <div class="row mb-3">
+          <div class="col-6">
+            <label>Targa</label>
+            <input type="text" class="form-control form-control-sm" name="targa" [(ngModel)]="newVeicolo.targa" [pattern]="'^[A-Za-z]{2}[0-9]{3}[A-Za-z]{2}$'"
+                    onKeyPress="if(this.value.length==7) return false;" required />
+          </div>
+          <div class="col-6">
+            <label>Tipo</label>
+            <input type="text" class="form-control form-control-sm" name="tipo" [(ngModel)]="newVeicolo.tipo"
+                   required />
+          </div>
+        </div>
+
+        <div class="row mb-3">
+          <div class="col-6">
+            <label>Proprietario (cod. fisc.)</label>
+            <input type="text" class="form-control form-control-sm" name="proprietario" [(ngModel)]="newVeicolo.proprietario" [pattern]="'^[A-Za-z]{6}[0-9]{2}[A-Za-z]{1}[0-9]{2}[A-Za-z]{1}[0-9]{3}[A-Za-z]{1}$'"
+                    onKeyPress="if(this.value.length==16) return false;" required />
+          </div>
+          <div class="col-6">
+            <label>Data Imatricolazione</label>
+			<input type="date" class="form-control form-control-sm" name="dataImmatricolazione" [(ngModel)]="newVeicolo.dataImmatricolazione"
+        			 required />
+          </div>
+         
+        </div>
+        <div class="row mb-3">
+ 			<div class="col-6">
+            <label>Cilindrata</label>
+            <input type="text" class="form-control form-control-sm" name="cilindrata" [(ngModel)]="newVeicolo.cilindrata"
+                   required />
+          </div>
+        </div>
+        <div class="row align-items-end">
+
+          <div class="col-6">
+            <button class="btn btn-primary mr-3" type="submit" [disabled]="f.form.invalid">Salva</button>
+            <button class="btn btn-primary" (click)="newVeicolo = {}">Svuota Campi</button>
+          </div>
+        </div>
+      </fieldset>
+    </form>
+  </div>
+
+  <div class="col-7" *ngIf="veicoli.length">
+    <form [formGroup]="veicoliForm">
+      <div class="text-center second-title mb-1">Lista Veicoli Inseriti</div>
+      <table class="table table-sm table-striped">
+        <thead>
+          <tr>
+            <th>Targa</th>
+            <th>Tipo</th>
+            <th>Proprietario (c.f.)</th>
+            <th>Data Imatricolazione</th>
+            <th>Cilindrata</th>
+            <th colspan="5"></th>
+          </tr>
+        </thead>
+        <tbody formArrayName="veicoliRows">
+          <tr *ngFor="let veicolo of veicoli let i = index">
+            <ng-container *ngIf="!veicolo.inModifica">
+              <td>{{veicolo.targa}}</td>
+              <td>{{veicolo.tipo}}</td>
+              <td>{{veicolo.proprietario}}</td>
+              <td>{{veicolo.dataImmatricolazione}}</td>
+              <td>{{veicolo.cilindrata}}</td>
+              <td class="buttons">
+                <button class="btn btn-primary btn-sm" (click)="veicolo.inModifica = true" tooltip="Modifica">
+                  <i class="fa fa-pencil"></i>
+                </button>
+              </td>
+              <td class="buttons">
+                <button class="btn btn-primary btn-sm" (click)="eliminaVeicolo(i)" tooltip="Elimina">
+                  <i class="fa fa-trash-o"></i>
+                </button>
+              </td>
+            
+            </ng-container>
+            <ng-container *ngIf="veicolo.inModifica" [formGroupName]="i">
+              <td><input type="text" formControlName="targa" class="form-control form-control-sm"></td>
+              <td><input type="text" formControlName="tipo" class="form-control form-control-sm"></td>
+              <td><input type="text" formControlName="proprietario" class="form-control form-control-sm"></td>
+              <td><input type="text" formControlName="dataImmatricolazione" class="form-control form-control-sm"></td>
+              <td><input type="text" formControlName="cilindrata" class="form-control form-control-sm"></td>
+              <td class="buttons">
+                <button class="btn btn-primary btn-sm" type="submit" (click)="saveModVeicolo(i)"
+                        [disabled]="formInvalid(i)" tooltip="Salva">
+                  <i class="fa fa-save"></i>
+                </button>
+              </td>
+              <td class="buttons">
+                <button class="btn btn-primary btn-sm" (click)="cancelModVeicolo(i)" tooltip="Annulla">
+                  <i class="fa fa-times"></i>
+                </button>
+              </td>
+              <td class="buttons" >
+				<button class="btn btn-primary btn-sm" (click)="veicolo.inModifica = true" tooltip="Modifica">
+				   <i class="fa fa-pencil"></i>
+			    </button>
+			</td>
+            </ng-container>
+          </tr>
+        </tbody>
+      </table>
+    </form>
+  </div>
+				{{array}}
+</div>

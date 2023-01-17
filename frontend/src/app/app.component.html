@@ -1,0 +1,31 @@
+<div class="container-fluid">
+
+  <nav class="row navbar navbar-expand-lg navbar-dark bg-primary">
+    <a class="navbar-brand">
+      <div>
+        <span class="title">Calcolo Bollo</span> - <span class="title2">Test Veicoli</span>
+      </div>
+ 
+    </a>
+  
+    <div  class="collapse navbar-collapse" id="navbarNavAltMarkup">
+      <div class="navbar-nav mr-auto">
+        <li class="nav-item" *ngFor="let p of pages" >
+          <a class="nav-link {{p.class}}" routerLink="{{p.route}}" routerLinkActive="active">{{p.title}}</a>
+        </li>
+      </div>
+    </div>
+  </nav>
+
+  <div class="row py-3">
+    <div class="col-12 px-5">
+      <h3 class="mb-3">{{pageTitle}}</h3>
+      <router-outlet></router-outlet>
+    </div>
+  </div>
+
+</div>
+
+<ngx-spinner size="medium" type="line-spin-fade" [fullScreen]="true">
+  <p style="color: white"> Loading... </p>
+</ngx-spinner>
